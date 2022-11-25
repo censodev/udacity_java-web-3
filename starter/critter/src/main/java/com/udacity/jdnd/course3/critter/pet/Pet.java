@@ -36,7 +36,7 @@ public class Pet {
     private PetType type;
     private String name;
     @ManyToOne
-    @JoinColumn(name = "ownerId")
+    @JoinColumn(name = "owner_id")
     private User owner;
     private LocalDate birthDate;
     @Lob

@@ -1,9 +1,8 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.StreamUtils;
 import com.udacity.jdnd.course3.critter.pet.Pet;
 
-import java.util.Collections;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UserMapper {
@@ -13,11 +12,7 @@ public class UserMapper {
                 .name(dto.getName())
                 .phoneNumber(dto.getPhoneNumber())
                 .notes(dto.getNotes())
-                .pets(Optional.ofNullable(dto.getPetIds())
-                        .map(petIds -> petIds.stream()
-                                .map(id -> Pet.builder().id(id).build())
-                                .collect(Collectors.toList()))
-                        .orElse(Collections.emptyList()))
+                .pets(StreamUtils.safeMap(dto.getPetIds(), id -> Pet.builder().id(id).build()).collect(Collectors.toList()))
                 .build();
     }
 
@@ -36,11 +31,7 @@ public class UserMapper {
                 .name(model.getName())
                 .notes(model.getNotes())
                 .phoneNumber(model.getPhoneNumber())
-                .petIds(Optional.ofNullable(model.getPets())
-                        .map(pets -> pets.stream()
-                                .map(Pet::getId)
-                                .collect(Collectors.toList()))
-                        .orElse(Collections.emptyList()))
+                .petIds(StreamUtils.safeMap(model.getPets(), Pet::getId).collect(Collectors.toList()))
                 .build();
     }
 
