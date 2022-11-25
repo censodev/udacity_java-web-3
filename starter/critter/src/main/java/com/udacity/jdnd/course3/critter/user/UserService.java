@@ -52,9 +52,21 @@ public class UserService {
     }
 
     public List<EmployeeDTO> findEmployeesForService(EmployeeRequestDTO employeeDTO) {
-        return userRepository.findForServices(employeeDTO.getSkills(), employeeDTO.getDate().getDayOfWeek())
+        return userRepository.findByDaysAvailableContains(employeeDTO.getDate().getDayOfWeek())
                 .stream()
+                .filter(u -> matchSkills(employeeDTO.getSkills(), u.getSkills()))
                 .map(UserMapper::map2Employee)
                 .collect(Collectors.toList());
+    }
+
+    private boolean matchSkills(Set<EmployeeSkill> expectedSkills, Set<EmployeeSkill> skills) {
+        var matchedMap = expectedSkills.stream()
+                .collect(Collectors.toMap(Enum::name, e -> 0));
+        skills.forEach(sk -> {
+            if (matchedMap.containsKey(sk.name())) {
+                matchedMap.put(sk.name(), 1);
+            }
+        });
+        return matchedMap.values().stream().mapToInt(i -> i).sum() == matchedMap.size();
     }
 }
