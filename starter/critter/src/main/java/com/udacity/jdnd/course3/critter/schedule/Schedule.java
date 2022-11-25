@@ -3,6 +3,11 @@ package com.udacity.jdnd.course3.critter.schedule;
 import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import com.udacity.jdnd.course3.critter.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -19,6 +24,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "schedules")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,44 +48,4 @@ public class Schedule {
     private LocalDate date;
     @ElementCollection
     private Set<EmployeeSkill> activities;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public List<User> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<User> employees) {
-        this.employees = employees;
-    }
-
-    public List<Pet> getPets() {
-        return pets;
-    }
-
-    public void setPets(List<Pet> pets) {
-        this.pets = pets;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Set<EmployeeSkill> getActivities() {
-        return activities;
-    }
-
-    public void setActivities(Set<EmployeeSkill> activities) {
-        this.activities = activities;
-    }
 }
