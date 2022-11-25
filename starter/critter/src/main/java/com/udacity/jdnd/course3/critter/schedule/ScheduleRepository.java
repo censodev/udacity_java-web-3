@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+    @Query("select s from Schedule s where :petId in (select s_p.id from s.pets s_p)")
     List<Schedule> findByPetsIdContains(long petId);
 
+    @Query("select s from Schedule s where :employeesId in (select s_e.id from s.employees s_e)")
     List<Schedule> findByEmployeesIdContains(long employeesId);
 
     @Query(
